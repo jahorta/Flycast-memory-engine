@@ -11,7 +11,7 @@
 #include <sstream>
 #include <utility>
 #include "../../Common/CommonUtils.h"
-#include "../../DolphinProcess/DolphinAccessor.h"
+#include "../../FlycastProcess/FlycastAccessor.h"
 
 DlgCopy::DlgCopy(QWidget* parent) : QDialog(parent)
 {
@@ -96,7 +96,7 @@ bool DlgCopy::copyMemory()
     QString errorMsg = tr("The address you entered is invalid, make sure it is an "
                           "hexadecimal number between 0x%08X and 0x%08X")
                            .arg(Common::MEM1_START, static_cast<int>(Common::GetMEM1End()) - 1);
-    if (DolphinComm::DolphinAccessor::isMEM2Present())
+    if (FlycastComm::FlycastAccessor::isMEM2Present())
       errorMsg.append(tr(" or between 0x%08X and 0x%08X")
                           .arg(Common::MEM2_START, static_cast<int>(Common::GetMEM2End()) - 1));
 
@@ -122,8 +122,8 @@ bool DlgCopy::copyMemory()
     }
   }
 
-  if (!DolphinComm::DolphinAccessor::isValidConsoleAddress(address) ||
-      !DolphinComm::DolphinAccessor::isValidConsoleAddress(address + count))
+  if (!FlycastComm::FlycastAccessor::isValidConsoleAddress(address) ||
+      !FlycastComm::FlycastAccessor::isValidConsoleAddress(address + count))
   {
     errorBox =
         new QMessageBox(QMessageBox::Critical, tr("Error reading bytes"),
@@ -135,8 +135,8 @@ bool DlgCopy::copyMemory()
 
   std::vector<char> newData(count);
 
-  if (!DolphinComm::DolphinAccessor::readFromRAM(
-          Common::dolphinAddrToOffset(address, DolphinComm::DolphinAccessor::isARAMAccessible()),
+  if (!FlycastComm::FlycastAccessor::readFromRAM(
+          Common::flycastAddrToOffset(address, FlycastComm::FlycastAccessor::isARAMAccessible()),
           newData.data(), newData.size(), false))
   {
     errorBox = new QMessageBox(QMessageBox::Critical, tr("Error reading bytes"),

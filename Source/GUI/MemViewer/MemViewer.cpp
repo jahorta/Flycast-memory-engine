@@ -18,7 +18,7 @@
 #include <QScrollBar>
 
 #include "../../Common/CommonUtils.h"
-#include "../../DolphinProcess/DolphinAccessor.h"
+#include "../../FlycastProcess/FlycastAccessor.h"
 #include "../MemWatcher/Dialogs/DlgAddWatchEntry.h"
 #include "../Settings/SConfig.h"
 
@@ -104,10 +104,10 @@ void MemViewer::updateMemoryData()
 {
   std::swap(m_updatedRawMemoryData, m_lastRawMemoryData);
   m_validMemory = false;
-  if (DolphinComm::DolphinAccessor::isValidConsoleAddress(m_currentFirstAddress))
-    m_validMemory = DolphinComm::DolphinAccessor::readFromRAM(
-        Common::dolphinAddrToOffset(m_currentFirstAddress,
-                                    DolphinComm::DolphinAccessor::isARAMAccessible()),
+  if (FlycastComm::FlycastAccessor::isValidConsoleAddress(m_currentFirstAddress))
+    m_validMemory = FlycastComm::FlycastAccessor::readFromRAM(
+        Common::flycastAddrToOffset(m_currentFirstAddress,
+                                    FlycastComm::FlycastAccessor::isARAMAccessible()),
         m_updatedRawMemoryData, m_numCells, false);
   if (!m_validMemory)
     emit memErrorOccured();
@@ -128,7 +128,7 @@ u32 MemViewer::getCurrentFirstAddress() const
 
 void MemViewer::jumpToAddress(const u32 address)
 {
-  if (DolphinComm::DolphinAccessor::isValidConsoleAddress(address))
+  if (FlycastComm::FlycastAccessor::isValidConsoleAddress(address))
   {
     m_currentFirstAddress = address;
     if (address >= Common::ARAM_START && address < Common::ARAM_END &&
@@ -425,11 +425,11 @@ void MemViewer::copySelection(const Common::MemType type) const
   size_t selectionLength = static_cast<size_t>(indexEnd - indexStart + 1);
 
   char* selectedMem = new char[selectionLength];
-  if (DolphinComm::DolphinAccessor::isValidConsoleAddress(m_currentFirstAddress))
+  if (FlycastComm::FlycastAccessor::isValidConsoleAddress(m_currentFirstAddress))
   {
-    bool valid = DolphinComm::DolphinAccessor::readFromRAM(
-        Common::dolphinAddrToOffset(m_currentFirstAddress + indexStart,
-                                    DolphinComm::DolphinAccessor::isARAMAccessible()),
+    bool valid = FlycastComm::FlycastAccessor::readFromRAM(
+        Common::flycastAddrToOffset(m_currentFirstAddress + indexStart,
+                                    FlycastComm::FlycastAccessor::isARAMAccessible()),
         selectedMem, selectionLength, false);
     if (valid)
     {
@@ -470,11 +470,11 @@ void MemViewer::editSelection()
 
     char* newMem = new char[selectionLength];
     std::memset(newMem, byte, selectionLength);
-    if (DolphinComm::DolphinAccessor::isValidConsoleAddress(m_currentFirstAddress + indexStart))
+    if (FlycastComm::FlycastAccessor::isValidConsoleAddress(m_currentFirstAddress + indexStart))
     {
-      if (!DolphinComm::DolphinAccessor::writeToRAM(
-              Common::dolphinAddrToOffset(m_currentFirstAddress + indexStart,
-                                          DolphinComm::DolphinAccessor::isARAMAccessible()),
+      if (!FlycastComm::FlycastAccessor::writeToRAM(
+              Common::flycastAddrToOffset(m_currentFirstAddress + indexStart,
+                                          FlycastComm::FlycastAccessor::isARAMAccessible()),
               newMem, selectionLength, false))
       {
         emit memErrorOccured();
@@ -741,9 +741,9 @@ bool MemViewer::writeCharacterToSelectedMemory(char byteToWrite)
   }
 
   const u32 offsetToWrite{
-      Common::dolphinAddrToOffset(m_currentFirstAddress + static_cast<u32>(memoryOffset),
-                                  DolphinComm::DolphinAccessor::isARAMAccessible())};
-  return DolphinComm::DolphinAccessor::writeToRAM(offsetToWrite, &byteToWrite, 1, false);
+      Common::flycastAddrToOffset(m_currentFirstAddress + static_cast<u32>(memoryOffset),
+                                  FlycastComm::FlycastAccessor::isARAMAccessible())};
+  return FlycastComm::FlycastAccessor::writeToRAM(offsetToWrite, &byteToWrite, 1, false);
 }
 
 void MemViewer::keyPressEvent(QKeyEvent* event)
@@ -994,7 +994,7 @@ void MemViewer::renderMemory(QPainter& painter, const int rowIndex, const int co
       m_currentFirstAddress + (m_numColumns * rowIndex + columnIndex) >= m_memViewStart &&
       m_currentFirstAddress + (m_numColumns * rowIndex + columnIndex) < m_memViewEnd};
   if (!validRange ||
-      !DolphinComm::DolphinAccessor::isValidConsoleAddress(
+      !FlycastComm::FlycastAccessor::isValidConsoleAddress(
           m_currentFirstAddress + (m_numColumns * rowIndex + columnIndex)) ||
       !m_validMemory)
   {

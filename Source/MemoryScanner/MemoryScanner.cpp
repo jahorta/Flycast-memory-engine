@@ -3,7 +3,7 @@
 #include <string_view>
 
 #include "../Common/CommonUtils.h"
-#include "../DolphinProcess/DolphinAccessor.h"
+#include "../FlycastProcess/FlycastAccessor.h"
 
 namespace
 {
@@ -39,9 +39,9 @@ Common::MemOperationReturnCode MemScanner::firstScan(const MemScanner::ScanFilte
                                                      const std::string& searchTerm2)
 {
   m_scanRAMCache = nullptr;
-  u32 ramSize = static_cast<u32>(DolphinComm::DolphinAccessor::getRAMTotalSize());
+  u32 ramSize = static_cast<u32>(FlycastComm::FlycastAccessor::getRAMTotalSize());
   m_scanRAMCache = new char[ramSize];
-  DolphinComm::DolphinAccessor::readEntireRAM(m_scanRAMCache);
+  FlycastComm::FlycastAccessor::readEntireRAM(m_scanRAMCache);
 
   u32 beginA = m_searchInRangeBegin ? m_beginSearchRange : 0;
   u32 endA = m_searchInRangeEnd ? m_endSearchRange : ramSize;
@@ -61,7 +61,7 @@ Common::MemOperationReturnCode MemScanner::firstScan(const MemScanner::ScanFilte
       m_memSize = Common::getSizeForType(m_memType, static_cast<size_t>(1));
       m_scanStarted = true;
 
-      bool aram = DolphinComm::DolphinAccessor::isARAMAccessible();
+      bool aram = FlycastComm::FlycastAccessor::isARAMAccessible();
 
       u32 alignedBeginA =
           beginA + ((alignmentDivision - (beginA % alignmentDivision)) % alignmentDivision);
@@ -185,7 +185,7 @@ Common::MemOperationReturnCode MemScanner::firstScan(const MemScanner::ScanFilte
 
     if (isResult)
     {
-      bool aramAccessible = DolphinComm::DolphinAccessor::isARAMAccessible();
+      bool aramAccessible = FlycastComm::FlycastAccessor::isARAMAccessible();
       u32 consoleOffset = Common::cacheIndexToOffset(i, aramAccessible);
       m_resultsConsoleAddr.push_back(Common::offsetToDolphinAddr(consoleOffset, aramAccessible));
     }
@@ -203,9 +203,9 @@ Common::MemOperationReturnCode MemScanner::nextScan(const MemScanner::ScanFilter
                                                     const std::string& searchTerm2)
 {
   char* newerRAMCache = nullptr;
-  u32 ramSize = static_cast<u32>(DolphinComm::DolphinAccessor::getRAMTotalSize());
+  u32 ramSize = static_cast<u32>(FlycastComm::FlycastAccessor::getRAMTotalSize());
   newerRAMCache = new char[ramSize];
-  DolphinComm::DolphinAccessor::readEntireRAM(newerRAMCache);
+  FlycastComm::FlycastAccessor::readEntireRAM(newerRAMCache);
 
   Common::MemOperationReturnCode scanReturn = Common::MemOperationReturnCode::OK;
   size_t termActualLength = 0;
@@ -249,7 +249,7 @@ Common::MemOperationReturnCode MemScanner::nextScan(const MemScanner::ScanFilter
   std::memset(noOffset, 0, m_memSize);
 
   std::vector<u32> newerResults = std::vector<u32>();
-  bool aramAccessible = DolphinComm::DolphinAccessor::isARAMAccessible();
+  bool aramAccessible = FlycastComm::FlycastAccessor::isARAMAccessible();
 
   bool wasUninitialized = m_wasUnknownInitialValue;
 
@@ -272,7 +272,7 @@ Common::MemOperationReturnCode MemScanner::nextScan(const MemScanner::ScanFilter
   {
     for (auto i : m_resultsConsoleAddr)
     {
-      u32 offset = Common::dolphinAddrToOffset(i, aramAccessible);
+      u32 offset = Common::flycastAddrToOffset(i, aramAccessible);
       u32 ramIndex = Common::offsetToCacheIndex(offset, aramAccessible);
       if (isHitNextScan(filter, memoryToCompare1, memoryToCompare2, noOffset, newerRAMCache,
                         m_memSize, ramIndex))
@@ -449,48 +449,48 @@ void MemScanner::resetSearchRange()
 
 bool MemScanner::setSearchRange(u32 beginRange, u32 endRange)
 {
-  if (!DolphinComm::DolphinAccessor::isValidConsoleAddress(beginRange) ||
-      !DolphinComm::DolphinAccessor::isValidConsoleAddress(endRange))
+  if (!FlycastComm::FlycastAccessor::isValidConsoleAddress(beginRange) ||
+      !FlycastComm::FlycastAccessor::isValidConsoleAddress(endRange))
   {
     return false;
   }
 
   m_searchInRangeBegin = true;
   m_searchInRangeEnd = true;
-  bool aram = DolphinComm::DolphinAccessor::isARAMAccessible();
+  bool aram = FlycastComm::FlycastAccessor::isARAMAccessible();
   m_beginSearchRange =
-      Common::offsetToCacheIndex(Common::dolphinAddrToOffset(beginRange, aram), aram);
-  m_endSearchRange = Common::offsetToCacheIndex(Common::dolphinAddrToOffset(endRange, aram), aram);
+      Common::offsetToCacheIndex(Common::flycastAddrToOffset(beginRange, aram), aram);
+  m_endSearchRange = Common::offsetToCacheIndex(Common::flycastAddrToOffset(endRange, aram), aram);
 
   return true;
 }
 
 bool MemScanner::setSearchRangeBegin(u32 beginRange)
 {
-  if (!DolphinComm::DolphinAccessor::isValidConsoleAddress(beginRange))
+  if (!FlycastComm::FlycastAccessor::isValidConsoleAddress(beginRange))
   {
     return false;
   }
 
   m_searchInRangeBegin = true;
-  bool aram = DolphinComm::DolphinAccessor::isARAMAccessible();
+  bool aram = FlycastComm::FlycastAccessor::isARAMAccessible();
   m_beginSearchRange =
-      Common::offsetToCacheIndex(Common::dolphinAddrToOffset(beginRange, aram), aram);
+      Common::offsetToCacheIndex(Common::flycastAddrToOffset(beginRange, aram), aram);
 
   return true;
 }
 
 bool MemScanner::setSearchRangeEnd(u32 endRange)
 {
-  if (!DolphinComm::DolphinAccessor::isValidConsoleAddress(endRange))
+  if (!FlycastComm::FlycastAccessor::isValidConsoleAddress(endRange))
   {
     return false;
   }
 
   m_searchInRangeEnd = true;
-  bool aram = DolphinComm::DolphinAccessor::isARAMAccessible();
+  bool aram = FlycastComm::FlycastAccessor::isARAMAccessible();
   m_endSearchRange =
-      Common::offsetToCacheIndex(Common::dolphinAddrToOffset(endRange, aram), aram) + 1;
+      Common::offsetToCacheIndex(Common::flycastAddrToOffset(endRange, aram), aram) + 1;
 
   return true;
 }
@@ -520,8 +520,8 @@ std::vector<u32> MemScanner::getResultsConsoleAddr() const
 
 std::string MemScanner::getFormattedScannedValueAt(const int index) const
 {
-  bool aramAccessible = DolphinComm::DolphinAccessor::isARAMAccessible();
-  u32 offset = Common::dolphinAddrToOffset(m_resultsConsoleAddr.at(index), aramAccessible);
+  bool aramAccessible = FlycastComm::FlycastAccessor::isARAMAccessible();
+  u32 offset = Common::flycastAddrToOffset(m_resultsConsoleAddr.at(index), aramAccessible);
   u32 ramIndex = Common::offsetToCacheIndex(offset, aramAccessible);
   const size_t length{m_memType == Common::MemType::type_string ? ~0ULL : m_memSize};
   return Common::formatMemoryToString(&m_scanRAMCache[ramIndex], m_memType, length, m_memBase,
@@ -530,11 +530,11 @@ std::string MemScanner::getFormattedScannedValueAt(const int index) const
 
 std::string MemScanner::getFormattedCurrentValueAt(const int index) const
 {
-  if (DolphinComm::DolphinAccessor::isValidConsoleAddress(m_resultsConsoleAddr.at(index)))
+  if (FlycastComm::FlycastAccessor::isValidConsoleAddress(m_resultsConsoleAddr.at(index)))
   {
-    bool aramAccessible = DolphinComm::DolphinAccessor::isARAMAccessible();
-    u32 offset = Common::dolphinAddrToOffset(m_resultsConsoleAddr.at(index), aramAccessible);
-    return DolphinComm::DolphinAccessor::getFormattedValueFromMemory(offset, m_memType, m_memSize,
+    bool aramAccessible = FlycastComm::FlycastAccessor::isARAMAccessible();
+    u32 offset = Common::flycastAddrToOffset(m_resultsConsoleAddr.at(index), aramAccessible);
+    return FlycastComm::FlycastAccessor::getFormattedValueFromMemory(offset, m_memType, m_memSize,
                                                                      m_memBase, !m_memIsSigned);
   }
   return "";
@@ -559,7 +559,7 @@ bool MemScanner::undoScan()
 
     if (wasUninitialzed)
     {
-      u32 ramSize = static_cast<u32>(DolphinComm::DolphinAccessor::getRAMTotalSize());
+      u32 ramSize = static_cast<u32>(FlycastComm::FlycastAccessor::getRAMTotalSize());
       int alignementDivision =
           m_enforceMemAlignment ? Common::getNbrBytesAlignmentForType(m_memType) : 1;
       m_resultCount = ((ramSize / alignementDivision) -

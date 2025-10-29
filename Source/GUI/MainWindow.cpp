@@ -14,7 +14,7 @@
 #include <QVBoxLayout>
 #include <string>
 
-#include "../DolphinProcess/DolphinAccessor.h"
+#include "../FlycastProcess/FlycastAccessor.h"
 #include "../MemoryWatch/MemWatchEntry.h"
 #include "GUICommon.h"
 #include "Settings/DlgSettings.h"
@@ -27,7 +27,7 @@ MainWindow::MainWindow()
   initialiseWidgets();
   makeLayouts();
   makeMenus();
-  DolphinComm::DolphinAccessor::init();
+  FlycastComm::FlycastAccessor::init();
   makeMemViewer();
   makeStructEditor();
 
@@ -85,7 +85,7 @@ MainWindow::~MainWindow()
   delete m_viewer;
   delete m_watcher;
   delete m_structEditor;
-  DolphinComm::DolphinAccessor::free();
+  FlycastComm::FlycastAccessor::free();
 }
 
 void MainWindow::makeMenus()
@@ -302,15 +302,15 @@ void MainWindow::onOpenMemViewerWithAddress(u32 address)
 void MainWindow::updateMem2Status()
 {
   updateStatusBar();
-  m_viewer->onMEM2StatusChanged(DolphinComm::DolphinAccessor::isMEM2Present());
+  m_viewer->onMEM2StatusChanged(FlycastComm::FlycastAccessor::isMEM2Present());
 }
 
 void MainWindow::updateDolphinHookingStatus()
 {
   updateStatusBar();
-  switch (DolphinComm::DolphinAccessor::getStatus())
+  switch (FlycastComm::FlycastAccessor::getStatus())
   {
-  case DolphinComm::DolphinAccessor::DolphinStatus::hooked:
+  case FlycastComm::FlycastAccessor::FlycastStatus::hooked:
   {
     m_scanner->setEnabled(true);
     m_copier->setEnabled(true);
@@ -320,7 +320,7 @@ void MainWindow::updateDolphinHookingStatus()
     m_actUnhook->setEnabled(!m_actAutoHook->isChecked());
     break;
   }
-  case DolphinComm::DolphinAccessor::DolphinStatus::notRunning:
+  case FlycastComm::FlycastAccessor::FlycastStatus::notRunning:
   {
     m_scanner->setDisabled(true);
     m_copier->setDisabled(true);
@@ -330,7 +330,7 @@ void MainWindow::updateDolphinHookingStatus()
     m_actUnhook->setEnabled(false);
     break;
   }
-  case DolphinComm::DolphinAccessor::DolphinStatus::noEmu:
+  case FlycastComm::FlycastAccessor::FlycastStatus::noEmu:
   {
     m_scanner->setDisabled(true);
     m_copier->setDisabled(true);
@@ -340,7 +340,7 @@ void MainWindow::updateDolphinHookingStatus()
     m_actUnhook->setEnabled(false);
     break;
   }
-  case DolphinComm::DolphinAccessor::DolphinStatus::unHooked:
+  case FlycastComm::FlycastAccessor::FlycastStatus::unHooked:
   {
     m_scanner->setDisabled(true);
     m_copier->setDisabled(true);
@@ -355,10 +355,10 @@ void MainWindow::updateDolphinHookingStatus()
 
 void MainWindow::onHookAttempt()
 {
-  DolphinComm::DolphinAccessor::hook();
+  FlycastComm::FlycastAccessor::hook();
   updateDolphinHookingStatus();
-  if (DolphinComm::DolphinAccessor::getStatus() ==
-      DolphinComm::DolphinAccessor::DolphinStatus::hooked)
+  if (FlycastComm::FlycastAccessor::getStatus() ==
+      FlycastComm::FlycastAccessor::FlycastStatus::hooked)
   {
     m_scanner->getUpdateTimer()->start(SConfig::getInstance().getScannerUpdateTimerMs());
     m_watcher->getUpdateTimer()->start(SConfig::getInstance().getWatcherUpdateTimerMs());
@@ -376,7 +376,7 @@ void MainWindow::onUnhook()
   m_watcher->getFreezeTimer()->stop();
   m_viewer->getUpdateTimer()->stop();
   m_viewer->hookStatusChanged(false);
-  DolphinComm::DolphinAccessor::unHook();
+  FlycastComm::FlycastAccessor::unHook();
   updateDolphinHookingStatus();
   m_watcher->update();
 }
@@ -414,8 +414,8 @@ void MainWindow::onAutoHookToggled(const bool checked)
 
 void MainWindow::onHookIfNotHooked()
 {
-  if (DolphinComm::DolphinAccessor::getStatus() !=
-      DolphinComm::DolphinAccessor::DolphinStatus::hooked)
+  if (FlycastComm::FlycastAccessor::getStatus() !=
+      FlycastComm::FlycastAccessor::FlycastStatus::hooked)
   {
     onHookAttempt();
   }
@@ -525,8 +525,8 @@ void MainWindow::onOpenSettings()
     m_watcher->getUpdateTimer()->stop();
     m_watcher->getFreezeTimer()->stop();
     m_viewer->getUpdateTimer()->stop();
-    if (DolphinComm::DolphinAccessor::getStatus() ==
-        DolphinComm::DolphinAccessor::DolphinStatus::hooked)
+    if (FlycastComm::FlycastAccessor::getStatus() ==
+        FlycastComm::FlycastAccessor::FlycastStatus::hooked)
     {
       m_scanner->getUpdateTimer()->start(SConfig::getInstance().getScannerUpdateTimerMs());
       m_watcher->getUpdateTimer()->start(SConfig::getInstance().getWatcherUpdateTimerMs());
@@ -651,21 +651,21 @@ void MainWindow::updateStatusBar()
   QStringList tags;
   QStringList toolTipLines;
 
-  switch (DolphinComm::DolphinAccessor::getStatus())
+  switch (FlycastComm::FlycastAccessor::getStatus())
   {
-  case DolphinComm::DolphinAccessor::DolphinStatus::hooked:
+  case FlycastComm::FlycastAccessor::FlycastStatus::hooked:
   {
     static const QIcon s_icon(":/status_hooked.svg");
     icon = s_icon;
 
     tags << tr("Hooked");
 
-    const bool mem2{DolphinComm::DolphinAccessor::isMEM2Present()};
-    const bool aram{!mem2 && DolphinComm::DolphinAccessor::isARAMAccessible()};
+    const bool mem2{FlycastComm::FlycastAccessor::isMEM2Present()};
+    const bool aram{!mem2 && FlycastComm::FlycastAccessor::isARAMAccessible()};
 
     std::array<char, sizeof("GM4E01")> gameID{};
-    if (DolphinComm::DolphinAccessor::readFromRAM(
-            Common::dolphinAddrToOffset(Common::MEM1_START, aram), gameID.data(), gameID.size(),
+    if (FlycastComm::FlycastAccessor::readFromRAM(
+            Common::flycastAddrToOffset(Common::MEM1_START, aram), gameID.data(), gameID.size(),
             false))
     {
       for (char& c : gameID)
@@ -680,8 +680,8 @@ void MainWindow::updateStatusBar()
     }
 
     toolTipLines
-        << tr("Hooked to Dolphin successfully. Current start address: ") +
-               QString::number(DolphinComm::DolphinAccessor::getEmuRAMAddressStart(), 16).toUpper();
+        << tr("Hooked to Flycast successfully. Current start address: ") +
+               QString::number(FlycastComm::FlycastAccessor::getEmuRAMAddressStart(), 16).toUpper();
 
     tags << tr("MEM1");
     if (mem2)
@@ -704,29 +704,29 @@ void MainWindow::updateStatusBar()
 
     break;
   }
-  case DolphinComm::DolphinAccessor::DolphinStatus::notRunning:
+  case FlycastComm::FlycastAccessor::FlycastStatus::notRunning:
   {
     static const QIcon s_icon(":/status_absent.svg");
     icon = s_icon;
-    tags << tr("Dolphin not detected");
-    toolTipLines << tr("Unable to hook to Dolphin. Dolphin does not appear to be running.");
+    tags << tr("Flycast not detected");
+    toolTipLines << tr("Unable to hook to Flycast. Flycast does not appear to be running.");
     break;
   }
-  case DolphinComm::DolphinAccessor::DolphinStatus::noEmu:
+  case FlycastComm::FlycastAccessor::FlycastStatus::noEmu:
   {
     static const QIcon s_icon(":/status_present.svg");
     icon = s_icon;
     tags << tr("No game running");
-    toolTipLines << tr("Unable to hook to Dolphin. The process appears to be running, but no "
+    toolTipLines << tr("Unable to hook to Flycast. The process appears to be running, but no "
                        "emulation has been started.");
     break;
   }
-  case DolphinComm::DolphinAccessor::DolphinStatus::unHooked:
+  case FlycastComm::FlycastAccessor::FlycastStatus::unHooked:
   {
     static const QIcon s_icon(":/status_unhooked.svg");
     icon = s_icon;
     tags << tr("Unhooked");
-    toolTipLines << tr("Unhooked. Press <b>Dolphin > Hook</b> to hook to Dolphin.");
+    toolTipLines << tr("Unhooked. Press <b>Flycast > Hook</b> to hook to Flycast.");
     break;
   }
   }

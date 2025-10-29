@@ -10,32 +10,32 @@
 int main(int argc, char** argv)
 {
   QApplication app(argc, argv);
-  QApplication::setApplicationName("Dolphin Memory Engine");
+  QApplication::setApplicationName("Flycast Memory Engine");
   QApplication::setApplicationVersion(APP_VERSION);
 
   SConfig config;  // Initialize global settings object
 
   QCommandLineParser parser;
   parser.setApplicationDescription(
-      QObject::tr("A RAM search made specifically to search, monitor and edit "
-                  "the Dolphin Emulator's emulated memory."));
+      QObject::tr("A RAM search derived from Dolphin Memory Engine to search, monitor and edit "
+                  "the Flycast Emulator's emulated memory."));
   parser.addHelpOption();
   parser.addVersionOption();
 
-  const QCommandLineOption dolphinProcessNameOption(
-      QStringList() << "d" << "dolphin-process-name",
+  const QCommandLineOption FlycastProcessNameOption(
+      QStringList() << "d" << "flycast-process-name",
       QObject::tr("Specify custom name for the Dolphin Emulator process. By default, "
                   "platform-specific names are used (e.g. \"Dolphin.exe\" on Windows, or "
                   "\"dolphin-emu\" on Linux or macOS). Check Task Manager or btop if in doubt."),
-      "dolphin_process_name");
-  parser.addOption(dolphinProcessNameOption);
+      "flycast_process_name");
+  parser.addOption(FlycastProcessNameOption);
 
   parser.process(app);
 
-  const QString dolphinProcessName{parser.value(dolphinProcessNameOption)};
-  if (!dolphinProcessName.isEmpty())
+  const QString FlycastProcessName{parser.value(FlycastProcessNameOption)};
+  if (!FlycastProcessName.isEmpty())
   {
-    qputenv("DME_DOLPHIN_PROCESS_NAME", dolphinProcessName.toStdString().c_str());
+    qputenv("FME_FLYCAST_PROCESS_NAME", FlycastProcessName.toStdString().c_str());
   }
 
   MainWindow window;

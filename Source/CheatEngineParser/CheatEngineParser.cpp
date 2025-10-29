@@ -4,7 +4,7 @@
 #include <sstream>
 #include <string>
 
-#include "../DolphinProcess/DolphinAccessor.h"
+#include "../FlycastProcess/FlycastAccessor.h"
 #include "../GUI/GUICommon.h"
 
 CheatEngineParser::CheatEngineParser()
@@ -201,7 +201,7 @@ void CheatEngineParser::parseCheatEntry(MemWatchTreeNode* node, const bool useDo
           {
             consoleAddressCandidate -= m_tableStartAddress;
             consoleAddressCandidate += Common::MEM1_START;
-            if (DolphinComm::DolphinAccessor::isValidConsoleAddress(consoleAddressCandidate))
+            if (FlycastComm::FlycastAccessor::isValidConsoleAddress(consoleAddressCandidate))
               consoleAddress = consoleAddressCandidate;
             else
               currentCheatEntryState.validConsoleAddress = false;
@@ -229,7 +229,7 @@ void CheatEngineParser::parseCheatEntry(MemWatchTreeNode* node, const bool useDo
               else
               {
                 consoleAddressCandidate += Common::MEM1_START;
-                if (DolphinComm::DolphinAccessor::isValidConsoleAddress(consoleAddressCandidate))
+                if (FlycastComm::FlycastAccessor::isValidConsoleAddress(consoleAddressCandidate))
                   consoleAddress = consoleAddressCandidate;
                 else
                   currentCheatEntryState.validConsoleAddress = false;

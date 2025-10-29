@@ -13,7 +13,7 @@
 
 #include "../../CheatEngineParser/CheatEngineParser.h"
 #include "../../Common/CommonUtils.h"
-#include "../../DolphinProcess/DolphinAccessor.h"
+#include "../../FlycastProcess/FlycastAccessor.h"
 #include "../GUICommon.h"
 #include "../Settings/SConfig.h"
 
@@ -403,7 +403,7 @@ QVariant MemWatchModel::data(const QModelIndex& index, int role) const
             return QString("No Struct type assigned");
           else if (!m_structDefMap.contains(entry->getStructName()))
             return QString("%1 not found").arg(entry->getStructName());
-          else if (!DolphinComm::DolphinAccessor::isValidConsoleAddress(entry->getActualAddress()))
+          else if (!FlycastComm::FlycastAccessor::isValidConsoleAddress(entry->getActualAddress()))
             return QString("???");
           else
             return QString();
@@ -540,8 +540,8 @@ Qt::ItemFlags MemWatchModel::flags(const QModelIndex& index) const
   {
     const bool container{node->getEntry() != nullptr &&
                          GUICommon::isContainerType(node->getEntry()->getType())};
-    const bool hooked{DolphinComm::DolphinAccessor::getStatus() ==
-                      DolphinComm::DolphinAccessor::DolphinStatus::hooked};
+    const bool hooked{FlycastComm::FlycastAccessor::getStatus() ==
+                      FlycastComm::FlycastAccessor::FlycastStatus::hooked};
     const Qt::ItemFlag itemIsEditable{hooked && !container ? Qt::ItemIsEditable : Qt::NoItemFlags};
     flags |= itemIsEditable;
   }

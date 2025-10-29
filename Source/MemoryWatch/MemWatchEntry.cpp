@@ -12,7 +12,7 @@
 #include <QJsonArray>
 
 #include "../Common/CommonUtils.h"
-#include "../DolphinProcess/DolphinAccessor.h"
+#include "../FlycastProcess/FlycastAccessor.h"
 
 MemWatchEntry::MemWatchEntry(QString label, const u32 consoleAddress, const Common::MemType type,
                              const Common::MemBase base, const bool isUnsigned, const size_t length,
@@ -212,12 +212,12 @@ u32 MemWatchEntry::getAddressForPointerLevel(const int level) const
   std::array<char, sizeof(u32)> addressBuffer{};
   for (int i = 0; i < level; ++i)
   {
-    if (DolphinComm::DolphinAccessor::readFromRAM(
-            Common::dolphinAddrToOffset(address, DolphinComm::DolphinAccessor::isARAMAccessible()),
+    if (FlycastComm::FlycastAccessor::readFromRAM(
+            Common::flycastAddrToOffset(address, FlycastComm::FlycastAccessor::isARAMAccessible()),
             addressBuffer.data(), sizeof(u32), true))
     {
       std::memcpy(&address, addressBuffer.data(), sizeof(u32));
-      if (DolphinComm::DolphinAccessor::isValidConsoleAddress(address))
+      if (FlycastComm::FlycastAccessor::isValidConsoleAddress(address))
         address += m_pointerOffsets.at(i);
       else
         return 0;
@@ -267,13 +267,13 @@ Common::MemOperationReturnCode MemWatchEntry::readMemoryFromRAM()
     std::array<char, sizeof(u32)> realConsoleAddressBuffer{};
     for (int offset : m_pointerOffsets)
     {
-      if (DolphinComm::DolphinAccessor::readFromRAM(
-              Common::dolphinAddrToOffset(realConsoleAddress,
-                                          DolphinComm::DolphinAccessor::isARAMAccessible()),
+      if (FlycastComm::FlycastAccessor::readFromRAM(
+              Common::flycastAddrToOffset(realConsoleAddress,
+                                          FlycastComm::FlycastAccessor::isARAMAccessible()),
               realConsoleAddressBuffer.data(), sizeof(u32), true))
       {
         std::memcpy(&realConsoleAddress, realConsoleAddressBuffer.data(), sizeof(u32));
-        if (DolphinComm::DolphinAccessor::isValidConsoleAddress(realConsoleAddress))
+        if (FlycastComm::FlycastAccessor::isValidConsoleAddress(realConsoleAddress))
         {
           realConsoleAddress += offset;
         }
@@ -292,12 +292,12 @@ Common::MemOperationReturnCode MemWatchEntry::readMemoryFromRAM()
     m_isValidPointer = true;
   }
 
-  if (!DolphinComm::DolphinAccessor::isValidConsoleAddress(realConsoleAddress))
+  if (!FlycastComm::FlycastAccessor::isValidConsoleAddress(realConsoleAddress))
     return Common::MemOperationReturnCode::OK;
 
-  if (DolphinComm::DolphinAccessor::readFromRAM(
-          Common::dolphinAddrToOffset(realConsoleAddress,
-                                      DolphinComm::DolphinAccessor::isARAMAccessible()),
+  if (FlycastComm::FlycastAccessor::readFromRAM(
+          Common::flycastAddrToOffset(realConsoleAddress,
+                                      FlycastComm::FlycastAccessor::isARAMAccessible()),
           m_memory, getSizeForType(m_type, m_length), shouldBeBSwappedForType(m_type)))
     return Common::MemOperationReturnCode::OK;
   return Common::MemOperationReturnCode::operationFailed;
@@ -312,13 +312,13 @@ Common::MemOperationReturnCode MemWatchEntry::writeMemoryToRAM(const char* memor
     std::array<char, sizeof(u32)> realConsoleAddressBuffer{};
     for (int offset : m_pointerOffsets)
     {
-      if (DolphinComm::DolphinAccessor::readFromRAM(
-              Common::dolphinAddrToOffset(realConsoleAddress,
-                                          DolphinComm::DolphinAccessor::isARAMAccessible()),
+      if (FlycastComm::FlycastAccessor::readFromRAM(
+              Common::flycastAddrToOffset(realConsoleAddress,
+                                          FlycastComm::FlycastAccessor::isARAMAccessible()),
               realConsoleAddressBuffer.data(), sizeof(u32), true))
       {
         std::memcpy(&realConsoleAddress, realConsoleAddressBuffer.data(), sizeof(u32));
-        if (DolphinComm::DolphinAccessor::isValidConsoleAddress(realConsoleAddress))
+        if (FlycastComm::FlycastAccessor::isValidConsoleAddress(realConsoleAddress))
         {
           realConsoleAddress += offset;
         }
@@ -337,12 +337,12 @@ Common::MemOperationReturnCode MemWatchEntry::writeMemoryToRAM(const char* memor
     m_isValidPointer = true;
   }
 
-  if (!DolphinComm::DolphinAccessor::isValidConsoleAddress(realConsoleAddress))
+  if (!FlycastComm::FlycastAccessor::isValidConsoleAddress(realConsoleAddress))
     return Common::MemOperationReturnCode::OK;
 
-  if (DolphinComm::DolphinAccessor::writeToRAM(
-          Common::dolphinAddrToOffset(realConsoleAddress,
-                                      DolphinComm::DolphinAccessor::isARAMAccessible()),
+  if (FlycastComm::FlycastAccessor::writeToRAM(
+          Common::flycastAddrToOffset(realConsoleAddress,
+                                      FlycastComm::FlycastAccessor::isARAMAccessible()),
           memory, size, shouldBeBSwappedForType(m_type)))
     return Common::MemOperationReturnCode::OK;
   return Common::MemOperationReturnCode::operationFailed;
@@ -351,7 +351,7 @@ Common::MemOperationReturnCode MemWatchEntry::writeMemoryToRAM(const char* memor
 std::string MemWatchEntry::getStringFromMemory() const
 {
   if ((m_boundToPointer && !m_isValidPointer) ||
-      !DolphinComm::DolphinAccessor::isValidConsoleAddress(m_consoleAddress))
+      !FlycastComm::FlycastAccessor::isValidConsoleAddress(m_consoleAddress))
     return "???";
   return Common::formatMemoryToString(m_memory, m_type, m_length, m_base, m_isUnsigned);
 }

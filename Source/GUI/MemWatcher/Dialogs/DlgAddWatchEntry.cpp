@@ -12,7 +12,7 @@
 #include <QtGlobal>
 #include <sstream>
 
-#include "../../../DolphinProcess/DolphinAccessor.h"
+#include "../../../FlycastProcess/FlycastAccessor.h"
 #include "../../GUICommon.h"
 
 DlgAddWatchEntry::DlgAddWatchEntry(const bool newEntry, MemWatchEntry* const entry,
@@ -360,7 +360,7 @@ void DlgAddWatchEntry::accept()
                           "hexadecimal number between 0x%1 and 0x%2")
                            .arg(Common::MEM1_START, 8, 16)
                            .arg(Common::GetMEM1End() - 1, 8, 16);
-    if (DolphinComm::DolphinAccessor::isMEM2Present())
+    if (FlycastComm::FlycastAccessor::isMEM2Present())
       errorMsg.append(tr(" or between 0x%1 and 0x%2")
                           .arg(Common::MEM2_START, 8, 16)
                           .arg(Common::GetMEM2End() - 1, 8, 16));
@@ -427,7 +427,7 @@ bool DlgAddWatchEntry::validateAndSetAddress()
   ss >> address;
   if (!ss.fail())
   {
-    if (DolphinComm::DolphinAccessor::isValidConsoleAddress(address))
+    if (FlycastComm::FlycastAccessor::isValidConsoleAddress(address))
     {
       m_entry->setConsoleAddress(address);
       return true;

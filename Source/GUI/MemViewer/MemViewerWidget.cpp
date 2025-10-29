@@ -5,7 +5,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-#include "../../DolphinProcess/DolphinAccessor.h"
+#include "../../FlycastProcess/FlycastAccessor.h"
 
 MemViewerWidget::MemViewerWidget(QWidget* const parent) : QWidget(parent)
 {
@@ -76,7 +76,7 @@ void MemViewerWidget::onGoToMEM1Start()
 
 void MemViewerWidget::onGoToSecondaryRAMStart()
 {
-  if (DolphinComm::DolphinAccessor::isARAMAccessible())
+  if (FlycastComm::FlycastAccessor::isARAMAccessible())
     m_memViewer->jumpToAddress(Common::ARAM_START);
   else
     m_memViewer->jumpToAddress(Common::MEM2_START);
@@ -98,7 +98,7 @@ void MemViewerWidget::onMEM2StatusChanged(bool enabled)
     m_memViewer->jumpToAddress(Common::MEM1_START);
 
   if (!enabled)
-    m_btnGoToSecondaryRAMStart->setEnabled(DolphinComm::DolphinAccessor::isARAMAccessible());
+    m_btnGoToSecondaryRAMStart->setEnabled(FlycastComm::FlycastAccessor::isARAMAccessible());
 }
 
 void MemViewerWidget::goToAddress(u32 address)
