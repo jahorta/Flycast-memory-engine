@@ -51,10 +51,10 @@ DlgSettings::DlgSettings(QWidget* parent) : QDialog(parent)
 
   QLabel* lblTimerSettingsDescription = new QLabel(
       "These settings changes the time in miliseconds it takes for updates to be fetched from "
-      "Dolphin. The lower these values are, the more frequant updates will happen, but the more "
+      "Flycast. The lower these values are, the more frequant updates will happen, but the more "
       "likely it will increase lag in the program especially on large watches list. For the "
       "address value lock timer, it sets how long it will take before settings the value in "
-      "Dolphin.");
+      "Flycast.");
   lblTimerSettingsDescription->setWordWrap(true);
 
   QVBoxLayout* timerSettingsLayout = new QVBoxLayout;

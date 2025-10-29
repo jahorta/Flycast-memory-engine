@@ -34,7 +34,7 @@ void DlgImportCTFile::initialiseWidgets()
       new QGroupBox(tr("Addresses import method (select the option that describes the table)"));
 
   m_rdbUseCommonBase = new QRadioButton(tr("Using an assumed common RAM start address"));
-  m_rdbUseDolphinPointers = new QRadioButton(tr("Using an internal Dolphin pointer"));
+  m_rdbUseDolphinPointers = new QRadioButton(tr("Using an internal Flycast pointer"));
 
   m_btnGroupImportAddressMethod = new QButtonGroup();
   m_btnGroupImportAddressMethod->addButton(m_rdbUseCommonBase, 0);
@@ -73,7 +73,7 @@ void DlgImportCTFile::makeLayouts()
                     "offset according to the assumed RAM start address"));
   lblCommonBase->setContentsMargins(20, 0, 0, 0);
   QLabel* lblDolphinPointer =
-      new QLabel(tr("Every entry of the table use a Dolphin internal pointer\n"
+      new QLabel(tr("Every entry of the table use a Flycast internal pointer\n"
                     "that points to the start of the RAM and the offset from\n"
                     "the start is in the offset field of the entry"));
   lblDolphinPointer->setContentsMargins(20, 0, 0, 0);

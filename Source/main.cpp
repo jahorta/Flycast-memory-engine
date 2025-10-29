@@ -17,16 +17,16 @@ int main(int argc, char** argv)
 
   QCommandLineParser parser;
   parser.setApplicationDescription(
-      QObject::tr("A RAM search derived from Dolphin Memory Engine to search, monitor and edit "
-                  "the Flycast Emulator's emulated memory."));
+      QObject::tr("A RAM search derived from Flycast Memory Engine to search, monitor and edit "
+                  "the Flycast Emulator's emulated memory. Heavily based off of Dolphin Memory Engine."));
   parser.addHelpOption();
   parser.addVersionOption();
 
   const QCommandLineOption FlycastProcessNameOption(
       QStringList() << "d" << "flycast-process-name",
-      QObject::tr("Specify custom name for the Dolphin Emulator process. By default, "
-                  "platform-specific names are used (e.g. \"Dolphin.exe\" on Windows, or "
-                  "\"dolphin-emu\" on Linux or macOS). Check Task Manager or btop if in doubt."),
+      QObject::tr("Specify custom name for the Flycast Emulator process. By default, "
+                  "platform-specific names are used (e.g. \"flycast.exe\" on Windows, or "
+                  "\"flycast-emu\"? on Linux or macOS). Check Task Manager or btop if in doubt."),
       "flycast_process_name");
   parser.addOption(FlycastProcessNameOption);
 

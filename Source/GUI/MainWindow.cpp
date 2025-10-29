@@ -704,11 +704,11 @@ void MainWindow::updateStatusBar()
       if (aram)
       {
         tags << tr("ARAM");
-        toolTipLines << tr("Dolphin's ARAM is accessible.");
+        toolTipLines << tr("Flycast's ARAM is accessible.");
       }
       else
       {
-        toolTipLines << tr("Dolphin's ARAM is inaccessible; turn off MMU to use it.");
+        toolTipLines << tr("Flycast's ARAM is inaccessible; turn off MMU to use it.");
       }
     }
 
