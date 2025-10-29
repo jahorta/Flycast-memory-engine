@@ -5,33 +5,10 @@
    height="1350"
    version="1.1"
    viewBox="0 0 2048 1350"
-   sodipodi:docname="status_hooked.svg"
-   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
      id="defs14" />
-  <sodipodi:namedview
-     id="namedview14"
-     pagecolor="#505050"
-     bordercolor="#eeeeee"
-     borderopacity="1"
-     inkscape:showpageshadow="0"
-     inkscape:pageopacity="0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#505050"
-     showgrid="false"
-     inkscape:zoom="0.59851852"
-     inkscape:cx="1024.1955"
-     inkscape:cy="675"
-     inkscape:window-width="1920"
-     inkscape:window-height="1010"
-     inkscape:window-x="-6"
-     inkscape:window-y="-6"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer4" />
   <linearGradient
      id="linear-gradient"
      x1="921.6"
@@ -107,10 +84,8 @@
        id="stop14" />
   </linearGradient>
   <g
-     inkscape:groupmode="layer"
      id="layer3"
-     inkscape:label="Layer 1"
-     style="display:inline">
+     style="display:none">
     <path
        id="dolphin-border"
        d="m 2045,1275 c -2.54,0.3605 -77.04,-340.4 -269,-529.8 C 1619.5,590.8 1265.4,289.1 805.5,322 445.6,347.69 495,520.7 514.8,512.4 c 56.36,-23.55 320.9,-98.76 603,59.19 249.4,139.7 345,373.7 330.1,391.9 -3.18,3.845 -90.3,-217.9 -489,-302.3 -309,-65.44 -633.2,-11.89 -771.2,42.97 -56.14,22.33 -147.8,83.24 -165.5,22.29 -16.62,-57.13 67,-103.2 76.86,-141.1 12.88,-49.5 3.98,-294.6 359.6,-399.6 138.3,-40.81 413.4,-80.1 713.5,12.18 14.82,3.244 32.68,1.862 44.16,-5.267 25.72,-15.98 77.94,-49.94 182.3,-59.19 200.6,-17.78 258,69.01 248.3,85.83 -4.88,8.49 -160.3,-41.01 -193.1,56.23 -12.24,36.2 13.56,56.63 31.88,69.23 65.34,42.63 126.8,90.93 183.7,144.4 133.1,124.6 225.6,258.2 300.8,439.9 59.88,144.6 87.14,344.1 74.8,345.9 z"
@@ -121,29 +96,17 @@
        fill="url(#linear-gradient-2)" />
   </g>
   <g
-     inkscape:groupmode="layer"
      id="layer7"
-     inkscape:label="Layer 3"
-     style="display:none">
+     style="display:inline">
     <path
-       sodipodi:type="spiral"
        style="fill:none;fill-rule:evenodd;stroke:#663399;stroke-width:128.9;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
        id="path14"
-       sodipodi:cx="942.32672"
-       sodipodi:cy="628.21783"
-       sodipodi:expansion="1"
-       sodipodi:revolution="2.9766147"
-       sodipodi:radius="699.66101"
-       sodipodi:argument="-18.849556"
-       sodipodi:t0="0.10581114"
        d="m 912.9426,696.16855 c -63.24072,3.78281 -99.95984,-65.15575 -92.50276,-120.6586 12.44403,-92.6206 112.34019,-141.82889 197.91856,-123.11516 121.7804,26.63018 184.3713,159.89288 153.7275,275.17846 C 1131.9527,878.55905 964.50974,954.77951 819.64755,911.9132 639.41024,858.57902 549.45269,656.59072 604.69519,482.21489 671.07181,272.69363 907.80003,168.94085 1111.6534,236.65014 1350.4809,315.97598 1468.0645,587.5602 1387.8306,820.8683 1295.6149,1089.0177 989.0998,1220.4555 726.35249,1127.6579 428.86989,1022.5924 283.56152,681.0953 388.95054,388.91984 506.8375,62.095661 883.35302,-97.095212 1204.9485,20.905488 1424.7346,101.55001 1588.0082,297.09881 1634.4486,525.78327"
        transform="translate(-120.29703,93.564357)" />
   </g>
   <g
-     inkscape:groupmode="layer"
      id="layer4"
-     inkscape:label="Layer 2"
-     style="display:inline">
+     style="display:none">
     <path
        id="circle"
        d="m 2030,830 a 498,498 0 0 1 -498,498 498,498 0 0 1 -498,-498 498,498 0 0 1 498,-498 498,498 0 0 1 498,498 z"
