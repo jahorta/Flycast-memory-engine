@@ -559,7 +559,11 @@ void MainWindow::onAbout()
 
 <br/>
 
-<p>
+<p> Flycast Memory Engine
+<a href='%URL2%'>%SOURCE_CODE%</a>
+</p>
+
+<p> Original Dolphin Memory Engine links
 <a href='%URL%'>%SOURCE_CODE%</a> |
 <a href='%URL%/blob/master/LICENSE'>%LICENSE%</a> |
 <a href='%URL%/graphs/contributors'>%CONTRIBUTORS%</a> |
@@ -571,11 +575,13 @@ void MainWindow::onAbout()
           .replace("%QT_VERSION%", tr("Built with Qt %1").arg(QT_VERSION_STR))
           .replace("%ABOUT_DESC%",
                    tr("A RAM search made to facilitate research and reverse engineering of "
-                      "GameCube and Wii games using the Dolphin Emulator."))
+                      "Dreamcast games using the Flycast Emulator. Heavily based on the "
+                      "Dolphin Memory Engine which targets the Dolphin emulator."))
           .replace("%LICENSE_DESC%",
                    tr("This program is licensed under the MIT license. You should have received a "
                       "copy of the MIT license along with this program."))
           .replace("%URL%", "https://github.com/aldelaro5/dolphin-memory-engine")
+          .replace("%URL2%", "https://github.com/jahorta/Flycast-memory-engine")
           .replace("%SOURCE_CODE%", tr("Source Code"))
           .replace("%LICENSE%", tr("License"))
           .replace("%CONTRIBUTORS%", tr("Contributors"))

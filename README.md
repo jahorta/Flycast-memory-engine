@@ -50,7 +50,7 @@ To build, simply run the following commands from the `Source` directory:
 The compiled binaries should be appear in the directory named `build`.
 
 ## MacOS code signing - also currently not supported
-Due to security hardening on recent versions of macOS, the Dolphin Emulator executable must be signed with a valid certificate and entitlements so that it can be debugged. First, [create a code signing certificate](https://sourceware.org/gdb/wiki/PermissionsDarwin):
+Due to security hardening on recent versions of macOS, the Flycast Emulator executable must be signed with a valid certificate and entitlements so that it can be debugged. First, [create a code signing certificate](https://sourceware.org/gdb/wiki/PermissionsDarwin):
 
 > Start Keychain Access application (/Applications/Utilities/Keychain Access.app)
 >
@@ -79,9 +79,6 @@ Finally, the program includes a memory viewer which shows a hexadecimal view and
 
 ### Development
  - currently Linux and MacOs are not supported, so use at your own risk. Maybe they will be supported in the future.
-
-### Transferring a DME watch list to FME
-- changing the extension of the file from .dmw to .fmw
 
 ### Linux
 
