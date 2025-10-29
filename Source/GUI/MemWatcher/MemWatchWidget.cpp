@@ -795,7 +795,7 @@ void MemWatchWidget::openWatchFile(const QString& fileName)
   if (fileName.isEmpty())
   {
     srcFileName = QFileDialog::getOpenFileName(this, "Open watch list", m_watchListFile,
-                                               "Dolphin memory watches file (*.dmw)");
+                                               "Flycast memory watches file (*.fmw)");
   }
   else
   {
@@ -883,11 +883,11 @@ bool MemWatchWidget::saveWatchFile()
 bool MemWatchWidget::saveAsWatchFile()
 {
   QString fileName = QFileDialog::getSaveFileName(this, "Save watch list", m_watchListFile,
-                                                  "Dolphin memory watches file (*.dmw)");
+                                                  "Flycast memory watches file (*.fmw)");
   if (fileName != "")
   {
-    if (!fileName.endsWith(".dmw"))
-      fileName.append(".dmw");
+    if (!fileName.endsWith(".fmw"))
+      fileName.append(".fmw");
     QFile watchFile(fileName);
     if (!watchFile.open(QIODevice::WriteOnly))
     {

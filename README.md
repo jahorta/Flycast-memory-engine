@@ -80,6 +80,9 @@ Finally, the program includes a memory viewer which shows a hexadecimal view and
 ### Development
  - currently Linux and MacOs are not supported, so use at your own risk. Maybe they will be supported in the future.
 
+### Transferring a DME watch list to FME
+- changing the extension of the file from .dmw to .fmw
+
 ### Linux
 
 1. This program requires additional kernel permissions to be able to read and write memory to external processes (which is required to read and write the memory of Dolphin). If the program frequently unhooks itself, the program is missing the required permissions. Grant these permissions with:
