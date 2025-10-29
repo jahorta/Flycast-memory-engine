@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(GCC_min_version 10)
-project(dolphin-memory-engine)
+project(flycast-memory-engine)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -31,20 +31,20 @@ include_directories("${CMAKE_CURRENT_BINARY_DIR}/include")
 
 
 if(WIN32)
-    set(DolphinProcessSrc DolphinProcess/Windows/WindowsDolphinProcess.cpp)
+    set(FlycastProcessSrc FlycastProcess/Windows/WindowsFlycastProcess.cpp)
     set(ExeIconSrc Resources/exeicon.rc)
 endif(WIN32)
 
 if(UNIX AND NOT APPLE)
-   set(DolphinProcessSrc DolphinProcess/Linux/LinuxDolphinProcess.cpp)
+   set(FlycastProcessSrc FlycastProcess/Linux/LinuxFlycastProcess.cpp)
 endif(UNIX AND NOT APPLE)
 
 if(APPLE)
-   set(DolphinProcessSrc DolphinProcess/Mac/MacDolphinProcess.cpp)
+   set(FlycastProcessSrc FlycastProcess/Mac/MacFlycastProcess.cpp)
 endif(APPLE)
 
-set(SRCS ${DolphinProcessSrc}
-         DolphinProcess/DolphinAccessor.cpp
+set(SRCS ${FlycastProcessSrc}
+         FlycastProcess/FlycastAccessor.cpp
          Common/MemoryCommon.cpp
          MemoryWatch/MemWatchEntry.cpp
          MemoryWatch/MemWatchTreeNode.cpp
@@ -124,15 +124,15 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     )
 endif ()
 
-add_executable(dolphin-memory-engine ${GUI_TYPE} ${SRCS})
+add_executable(flycast-memory-engine ${GUI_TYPE} ${SRCS})
 
-target_link_libraries(dolphin-memory-engine Qt6::Widgets)
-target_link_libraries(dolphin-memory-engine Qt6::Gui)
-target_link_libraries(dolphin-memory-engine Qt6::Core)
-target_link_libraries(dolphin-memory-engine Qt6::Svg)
+target_link_libraries(flycast-memory-engine Qt6::Widgets)
+target_link_libraries(flycast-memory-engine Qt6::Gui)
+target_link_libraries(flycast-memory-engine Qt6::Core)
+target_link_libraries(flycast-memory-engine Qt6::Svg)
 
 if(WIN32)
-    set_target_properties(dolphin-memory-engine PROPERTIES OUTPUT_NAME DolphinMemoryEngine)
+    set_target_properties(flycast-memory-engine PROPERTIES OUTPUT_NAME FlycastMemoryEngine)
     if($<CONFIG:Debug>)
         get_target_property(WIDGETDLL Qt6::Widgets IMPORTED_LOCATION_DEBUG)
         get_target_property(COREDLL Qt6::Widgets IMPORTED_LOCATION_DEBUG)
@@ -145,56 +145,56 @@ if(WIN32)
         get_target_property(SVGDLL Qt6::Widgets IMPORTED_LOCATION_RELEASE)
     endif($<CONFIG:Debug>)
     add_custom_command(
-        TARGET dolphin-memory-engine POST_BUILD
+        TARGET flycast-memory-engine POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             $<TARGET_FILE:Qt6::Widgets>
-            $<TARGET_FILE_DIR:dolphin-memory-engine>
-        TARGET dolphin-memory-engine POST_BUILD
+            $<TARGET_FILE_DIR:flycast-memory-engine>
+        TARGET flycast-memory-engine POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             $<TARGET_FILE:Qt6::Core>
-            $<TARGET_FILE_DIR:dolphin-memory-engine>
-        TARGET dolphin-memory-engine POST_BUILD
+            $<TARGET_FILE_DIR:flycast-memory-engine>
+        TARGET flycast-memory-engine POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             $<TARGET_FILE:Qt6::Gui>
-            $<TARGET_FILE_DIR:dolphin-memory-engine>
-        TARGET dolphin-memory-engine POST_BUILD
+            $<TARGET_FILE_DIR:flycast-memory-engine>
+        TARGET flycast-memory-engine POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             $<TARGET_FILE:Qt6::Svg>
-            $<TARGET_FILE_DIR:dolphin-memory-engine>
-        TARGET dolphin-memory-engine POST_BUILD
+            $<TARGET_FILE_DIR:flycast-memory-engine>
+        TARGET flycast-memory-engine POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E make_directory
-            $<TARGET_FILE_DIR:dolphin-memory-engine>/imageformats
-        TARGET dolphin-memory-engine POST_BUILD
+            $<TARGET_FILE_DIR:flycast-memory-engine>/imageformats
+        TARGET flycast-memory-engine POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             $<TARGET_FILE:Qt6::QSvgPlugin>
-            $<TARGET_FILE_DIR:dolphin-memory-engine>/imageformats
-        TARGET dolphin-memory-engine POST_BUILD
+            $<TARGET_FILE_DIR:flycast-memory-engine>/imageformats
+        TARGET flycast-memory-engine POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E make_directory
-            $<TARGET_FILE_DIR:dolphin-memory-engine>/platforms
-        TARGET dolphin-memory-engine POST_BUILD
+            $<TARGET_FILE_DIR:flycast-memory-engine>/platforms
+        TARGET flycast-memory-engine POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             $<TARGET_FILE:Qt6::QWindowsIntegrationPlugin>
-            $<TARGET_FILE_DIR:dolphin-memory-engine>/platforms
-        TARGET dolphin-memory-engine POST_BUILD
+            $<TARGET_FILE_DIR:flycast-memory-engine>/platforms
+        TARGET flycast-memory-engine POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E make_directory
-            $<TARGET_FILE_DIR:dolphin-memory-engine>/styles
-        TARGET dolphin-memory-engine POST_BUILD
+            $<TARGET_FILE_DIR:flycast-memory-engine>/styles
+        TARGET flycast-memory-engine POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             $<TARGET_FILE:Qt6::QWindowsVistaStylePlugin>
-            $<TARGET_FILE_DIR:dolphin-memory-engine>/styles
+            $<TARGET_FILE_DIR:flycast-memory-engine>/styles
     )
 endif(WIN32)
 
 if(APPLE)
-    set_target_properties(dolphin-memory-engine PROPERTIES
+    set_target_properties(flycast-memory-engine PROPERTIES
         MACOSX_BUNDLE TRUE
-        MACOSX_BUNDLE_BUNDLE_NAME "Dolphin Memory Engine"
-        MACOSX_BUNDLE_GUI_IDENTIFIER "com.aldelaro5.dolphin-memory-engine"
+        MACOSX_BUNDLE_BUNDLE_NAME "Flycast Memory Engine"
+        MACOSX_BUNDLE_GUI_IDENTIFIER "com.jahorta.flycast-memory-engine"
     )
 
     set(MACOSX_BUNDLE_ICON_FILE "logo.icns")
     set(app_icon_macos "Resources/logo.icns")
     set_source_files_properties(${app_icon_macos} PROPERTIES
            MACOSX_PACKAGE_LOCATION "Resources")
-    configure_file(${app_icon_macos} ${CMAKE_BINARY_DIR}/dolphin-memory-engine.app/Contents/Resources/${MACOSX_BUNDLE_ICON_FILE} COPYONLY)
+    configure_file(${app_icon_macos} ${CMAKE_BINARY_DIR}/flycast-memory-engine.app/Contents/Resources/${MACOSX_BUNDLE_ICON_FILE} COPYONLY)
 endif(APPLE)
