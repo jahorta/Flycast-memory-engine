@@ -1,8 +1,8 @@
 #ifdef __APPLE__
 
 #include "MacFlycastProcess.h"
-#include "../../Common/MemoryCommon.h"
 #include "../../Common/CommonUtils.h"
+#include "../../Common/MemoryCommon.h"
 
 #include <mach/mach_vm.h>
 #include <memory>

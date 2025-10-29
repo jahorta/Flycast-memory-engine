@@ -1,6 +1,8 @@
 #ifdef __APPLE__
 #pragma once
 
+#include <vector>
+
 #include <mach/mach.h>
 #include "../IFlycastProcess.h"
 

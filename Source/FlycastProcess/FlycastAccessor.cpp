@@ -147,7 +147,8 @@ size_t FlycastAccessor::getRAMTotalSize()
 
 bool FlycastAccessor::isValidConsoleAddress(u32 address)
 {
-  if (getStatus() != FlycastStatus::hooked) return false;
+  if (getStatus() != FlycastStatus::hooked)
+    return false;
 
   if (address >= Common::MEM1_START && address < Common::GetMEM1End())
     return true;

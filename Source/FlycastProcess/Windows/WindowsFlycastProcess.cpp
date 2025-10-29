@@ -11,8 +11,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "../../Common/MemoryCommon.h"  // for Common::bSwapXX helpers if you want withBSwap parity
 #include "../../Common/CommonUtils.h"
+#include "../../Common/MemoryCommon.h"  // for Common::bSwapXX helpers if you want withBSwap parity
 
 namespace FlycastComm
 {

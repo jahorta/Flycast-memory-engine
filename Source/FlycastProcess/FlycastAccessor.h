@@ -17,7 +17,7 @@ public:
     hooked,      // attached & RAM discovered
     notRunning,  // process not found
     noEmu,       // process found but RAM base unresolved
-    unHooked     
+    unHooked
   };
 
   static void init();

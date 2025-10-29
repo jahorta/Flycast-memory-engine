@@ -1,8 +1,8 @@
 #ifdef __linux__
 
 #include "LinuxFlycastProcess.h"
-#include "../../Common/MemoryCommon.h"
 #include "../../Common/CommonUtils.h"
+#include "../../Common/MemoryCommon.h"
 
 #include <algorithm>
 #include <cstdlib>
