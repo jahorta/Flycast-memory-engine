@@ -23,7 +23,7 @@
 MainWindow::MainWindow()
 {
   setWindowTitle(QApplication::applicationName() + " " + QApplication::applicationVersion());
-  setWindowIcon(QIcon(":/logo.svg"));
+  setWindowIcon(QIcon(":/FME_logo.svg"));
   initialiseWidgets();
   makeLayouts();
   makeMenus();
@@ -559,11 +559,15 @@ void MainWindow::onAbout()
 
 <br/>
 
-<p> Flycast Memory Engine
+<p> Flycast Memory Engine </p>
+<p>
 <a href='%URL2%'>%SOURCE_CODE%</a>
 </p>
 
-<p> Original Dolphin Memory Engine links
+<br/>
+
+<p> Original Dolphin Memory Engine links</p>
+<p>
 <a href='%URL%'>%SOURCE_CODE%</a> |
 <a href='%URL%/blob/master/LICENSE'>%LICENSE%</a> |
 <a href='%URL%/graphs/contributors'>%CONTRIBUTORS%</a> |
@@ -661,7 +665,7 @@ void MainWindow::updateStatusBar()
   {
   case FlycastComm::FlycastAccessor::FlycastStatus::hooked:
   {
-    static const QIcon s_icon(":/status_hooked.svg");
+    static const QIcon s_icon(":/FME_status_hooked.svg");
     icon = s_icon;
 
     tags << tr("Hooked");
@@ -712,7 +716,7 @@ void MainWindow::updateStatusBar()
   }
   case FlycastComm::FlycastAccessor::FlycastStatus::notRunning:
   {
-    static const QIcon s_icon(":/status_absent.svg");
+    static const QIcon s_icon(":/FME_status_absent.svg");
     icon = s_icon;
     tags << tr("Flycast not detected");
     toolTipLines << tr("Unable to hook to Flycast. Flycast does not appear to be running.");
@@ -720,7 +724,7 @@ void MainWindow::updateStatusBar()
   }
   case FlycastComm::FlycastAccessor::FlycastStatus::noEmu:
   {
-    static const QIcon s_icon(":/status_present.svg");
+    static const QIcon s_icon(":/FME_status_present.svg");
     icon = s_icon;
     tags << tr("No game running");
     toolTipLines << tr("Unable to hook to Flycast. The process appears to be running, but no "
@@ -729,7 +733,7 @@ void MainWindow::updateStatusBar()
   }
   case FlycastComm::FlycastAccessor::FlycastStatus::unHooked:
   {
-    static const QIcon s_icon(":/status_unhooked.svg");
+    static const QIcon s_icon(":/FME_status_unhooked.svg");
     icon = s_icon;
     tags << tr("Unhooked");
     toolTipLines << tr("Unhooked. Press <b>Flycast > Hook</b> to hook to Flycast.");
