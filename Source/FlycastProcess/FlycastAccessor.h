@@ -46,7 +46,7 @@ public:
 
   // Optional helper (returns 0 if unknown); Flycast SH-4 RAM is usually 16 MiB.
   static size_t getRAMTotalSize();
-  static bool isValidConsoleAddress(u32 consoleAddress);
+  static bool isValidConsoleAddress(u32 address);
 
 private:
   static IFlycastProcess* m_instance;

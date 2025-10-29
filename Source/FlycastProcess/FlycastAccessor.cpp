@@ -145,10 +145,20 @@ size_t FlycastAccessor::getRAMTotalSize()
   return 16 * 1024 * 1024;
 }
 
-bool FlycastAccessor::isValidConsoleAddress(u32 consoleAddress)
+bool FlycastAccessor::isValidConsoleAddress(u32 address)
 {
-  const size_t ramSize = getRAMTotalSize();
-  return consoleAddress < static_cast<u32>(ramSize);
+  if (getStatus() != FlycastStatus::hooked) return false;
+
+  if (address >= Common::MEM1_START && address < Common::GetMEM1End())
+    return true;
+
+  if (isMEM2Present() && (address >= Common::MEM2_START && address < Common::GetMEM2End()))
+    return true;
+
+  if (isARAMAccessible() && (address >= Common::ARAM_START && address < Common::ARAM_END))
+    return true;
+
+  return false;
 }
 
 }  // namespace FlycastComm
