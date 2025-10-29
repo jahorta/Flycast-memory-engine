@@ -25,6 +25,7 @@ FlycastAccessor::FlycastStatus FlycastAccessor::m_status =
 // --- helpers -----------------------------------------------------------------
 void FlycastAccessor::init()
 {
+  Common::UpdateMemoryValues();
 #ifdef __linux__
   m_instance = new LinuxFlycastProcess();
   return nullptr;
