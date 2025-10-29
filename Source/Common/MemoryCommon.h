@@ -14,7 +14,7 @@ u32 GetMEM1Size();
 u32 GetMEM2Size();
 u32 GetMEM1End();
 u32 GetMEM2End();
-constexpr u32 MEM1_START = 0x80000000;
+constexpr u32 MEM1_START = 0x8C000000;
 constexpr u32 MEM2_START = 0x90000000;
 constexpr u32 ARAM_SIZE = 0x1000000;
 // Dolphin maps 32 mb for the fakeVMem which is what ends up being the speedhack, but in reality
