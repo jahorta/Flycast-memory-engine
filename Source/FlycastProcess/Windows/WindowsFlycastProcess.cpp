@@ -275,6 +275,7 @@ bool WindowsFlycastProcess::readFromRAM(u32 offset, char* buffer, size_t size, b
   if (!ReadProcessMemory(m_hProcess, reinterpret_cast<LPCVOID>(addr), buffer, size, &bytesRead) ||
       bytesRead != size)
   {
+    int err = GetLastError();
     return false;
   }
 
