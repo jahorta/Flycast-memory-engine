@@ -48,11 +48,8 @@ u32 GetMEM2End()
 void UpdateMemoryValues()
 {
   s_mem1_size_real = SConfig::getInstance().getMEM1Size();
-  s_mem2_size_real = SConfig::getInstance().getMEM2Size();
   s_mem1_size = NextPowerOf2(GetMEM1SizeReal());
-  s_mem2_size = NextPowerOf2(GetMEM2SizeReal());
   s_mem1_end = MEM1_START + GetMEM1SizeReal();
-  s_mem2_end = MEM2_START + GetMEM2SizeReal();
 }
 
 size_t getSizeForType(const MemType type, const size_t length)
