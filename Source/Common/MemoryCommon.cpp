@@ -87,13 +87,13 @@ bool shouldBeBSwappedForType(const MemType type)
   case MemType::type_byte:
     return false;
   case MemType::type_halfword:
-    return true;
+    return false;
   case MemType::type_word:
-    return true;
+    return false;
   case MemType::type_float:
-    return true;
+    return false;
   case MemType::type_double:
-    return true;
+    return false;
   case MemType::type_string:
     return false;
   case MemType::type_byteArray:
