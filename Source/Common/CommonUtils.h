@@ -76,7 +76,7 @@ constexpr u32 NextPowerOf2(u32 value)
   return value;
 };
 
-inline u32 dolphinAddrToOffset(u32 addr, bool considerAram)
+inline u32 flycastAddrToOffset(u32 addr, bool considerAram)
 {
   // ARAM address
   if (addr >= ARAM_START && addr < ARAM_END)
