@@ -1,33 +1,17 @@
-# Dolphin Memory Engine
+# Flycast Memory Engine
 
-![Screenshot](https://raw.githubusercontent.com/aldelaro5/dolphin-memory-engine/master/Docs/screenshot.png)
-
-A RAM search program designed to search, track, and edit the emulated memory of [the Dolphin emulator](https://github.com/dolphin-emu/dolphin) during runtime. The primary goal is to make research, tool-assisted speedruns, and reverse engineering of GameCube & Wii games more convenient and easier than with the alternative solution, Cheat Engine. The program's name is derived from Cheat Engine as a symbol for its goal.
+A RAM search program designed to search, track, and edit the emulated memory of [the Flycast emulator](https://github.com/dolphin-emu/dolphin) during runtime. The primary goal is to make research, tool-assisted speedruns, and reverse engineering of Dreamcast games more convenient and easier than with the alternative solution, Cheat Engine. The program's name is derived from Dolphin Memory Engine as a nod to its roots.
 
 The GUI is aimed for convenience, without disrupting the performance of the emulation. Qt 6 is used to help accomplish this.
 
-For binary releases of this program, refer to [the "releases" page](https://github.com/aldelaro5/dolphin-memory-engine/releases) on [the Github repository](https://github.com/aldelaro5/dolphin-memory-engine).
-
-## Build Status
-
-### Linux:
-[![Build](https://github.com/aldelaro5/dolphin-memory-engine/actions/workflows/build.yml/badge.svg)](https://github.com/aldelaro5/dolphin-memory-engine/actions/workflows/build.yml)
-
-### MacOS:
-[![Build](https://github.com/aldelaro5/dolphin-memory-engine/actions/workflows/build.yml/badge.svg)](https://github.com/aldelaro5/dolphin-memory-engine/actions/workflows/build.yml)
-
-### Windows:
-[![Build](https://github.com/aldelaro5/dolphin-memory-engine/actions/workflows/build.yml/badge.svg)](https://github.com/aldelaro5/dolphin-memory-engine/actions/workflows/build.yml)
-
-
 ## System requirements
-Any x86_64 based system should work.
+Any x86_64 based system should work. Though at the moment Windows is the most reliable build
 
 This repository uses CMake for all platforms.
 
 At least 250 MB of free memory is required.
 
-You need to have Dolphin running ***and*** _have the emulation started_ for this program to be useful. As such, the system must meet Dolphin's [system requirements](https://github.com/dolphin-emu/dolphin#system-requirements).
+You need to have Flycast running ***and*** _have the emulation started_ for this program to be useful. As such, the system must be able to run Flycast.
 
 On Linux and macOS, installation of the Qt 6 package(s) is required.
 
@@ -51,10 +35,10 @@ Before proceeding, ensure the Qt submodule is initialized by running `git submod
 
 Once complete, open the `Source` directory with Visual Studio's `Open a local folder` option.
 
-### Linux
+### Linux - Not currently supported
 > _CMake and Qt 6 are required. Please refer to your distribution's documentation for specific instructions on how to install them._
 
-### MacOS
+### MacOS - Not currently supported
 Xcode, Qt 6, and CMake are required. These can be installed through `xcode-select --install`, `brew install qt@6`, and `brew install cmake` (you may need to install [brew](https://brew.sh) first). Ensure that Qt is symlinked into a place that CMake can find it or added to `$PATH`. With brew, you can run `export PATH="$(brew --prefix qt@6):$PATH"` before compiling. **After compilation, continue to [macOS code signing](#macos-code-signing).**
 
 To build, simply run the following commands from the `Source` directory:
@@ -65,7 +49,7 @@ To build, simply run the following commands from the `Source` directory:
 
 The compiled binaries should be appear in the directory named `build`.
 
-## MacOS code signing
+## MacOS code signing - also currently not supported
 Due to security hardening on recent versions of macOS, the Dolphin Emulator executable must be signed with a valid certificate and entitlements so that it can be debugged. First, [create a code signing certificate](https://sourceware.org/gdb/wiki/PermissionsDarwin):
 
 > Start Keychain Access application (/Applications/Utilities/Keychain Access.app)
@@ -78,55 +62,29 @@ Then, run the interactive `MacSetup.sh` script inside the `Tools` directory (if 
 
     sh ./MacSetup.sh
 
-**Note that Dolphin must also be re-signed using this script after an update.**
+**Note that Flycast must also be re-signed using this script after an update.**
 
 ## General usage
-Open Dolphin and start a game, then run this program. Make sure that this program reports that the Wii-only extra memory is present for Wii games and absent for GameCube games.
-
->_Exclusive to the Wii, this is an extra region of memory added as part of the enhancements from the earlier GameCube hardware. Consequently, the presence of this extra memory affects what is considered a valid watch address, as well as what areas of memory the scanner will look though._
+Open Flycast and start a game, then run this program.
 
 If the hooking process is successful, the UI should be enabled, otherwise, click the hook button.
 
 Once hooked, scans can be performed just like Cheat Engine as well as management of a watch list. Save and load a watch list to the disk by using the file menu. The watch list files are in JSON and can be edited in any text editor.
 
-If the program unhooks itself from Dolphin, a read/write operation has failed. This is likely caused by the emulation halting. Boot a game again to solve this; the watch list and scan will be retained during the unhooking.
+If the program unhooks itself from Flycast, a read/write operation has failed. This is likely caused by the emulation halting. Boot a game again to solve this; the watch list and scan will be retained during the unhooking.
 
 Finally, the program includes a memory viewer which shows a hexadecimal view and an ASCII view of the memory. Click on the corresponding button or right click on a watch to browse the memory using the memory viewer.
 
-### Command-line Arguments
-
-A number of options can be provided as command-line arguments:
-
-```
-Usage: dolphin-memory-engine [options]
-A RAM search made specifically to search, monitor and edit the Dolphin Emulator's emulated memory.
-
-Options:
-  -h, --help                                         Displays help on
-                                                     commandline options.
-  --help-all                                         Displays help including Qt
-                                                     specific options.
-  -v, --version                                      Displays version
-                                                     information.
-  -d, --dolphin-process-name <dolphin_process_name>  Specify custom name for
-                                                     the Dolphin Emulator
-                                                     process. By default,
-                                                     platform-specific names are
-                                                     used (e.g. "Dolphin.exe" on
-                                                     Windows, or "dolphin-emu"
-                                                     on Linux or macOS).
-                                                     Check Task Manager
-                                                     or btop if in doubt.
-```
-
 ## Troubleshooting
 
+### Development
+ - currently Linux and MacOs are not supported, so use at your own risk. Maybe they will be supported in the future.
 
 ### Linux
 
 1. This program requires additional kernel permissions to be able to read and write memory to external processes (which is required to read and write the memory of Dolphin). If the program frequently unhooks itself, the program is missing the required permissions. Grant these permissions with:
 
-`sudo setcap cap_sys_ptrace=eip dolphin-memory-engine`
+`sudo setcap cap_sys_ptrace=eip flycast-memory-engine`
 
 where `dolphin-memory-engine` is the path of the Dolphin Memory Engine executable. This sets the permission for future executions. If it doesn't work, verify that you do not have the `nosuid` mount flag on your `/etc/fstab` as it can cause this command to silently fail.
 
@@ -142,14 +100,8 @@ If you're on wayland, you may also need to allow root to access xwayland
 
 Dolphin (upon install or after an update) must be signed with specific entitlements to permit memory access. Follow the instructions [above](#macos-code-signing).
 
-## Python Library
-
-This library has no affiliation with the dolphin-memory-engine project.
-[py-dolphin-memory-engine](https://github.com/randovania/py-dolphin-memory-engine).
-
-Use py-dolphin-memory-engine instead of dolphin-memory-engine if creating software or scripts that rely on reading or writing Dolphin memory.
-
-An example project is [This AI can 100% complete Mario Kart Wii. by AI Tango](https://youtu.be/6OofM-Q3dGA)
-
 ## License
 This program is licensed under the MIT license which grants you the permission to do anything you wish to with the software, as long as you preserve all copyright notices. See the file LICENSE for the legal text.
+
+## Special Notes
+This program could not have happened without the immense development work of the base program - Dolphin Memory Engine. Literally all that was done for this is to replace the internals to work with a different emulator.
