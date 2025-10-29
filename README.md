@@ -1,6 +1,6 @@
 # Flycast Memory Engine
 
-A RAM search program designed to search, track, and edit the emulated memory of [the Flycast emulator](https://github.com/dolphin-emu/dolphin) during runtime. The primary goal is to make research, tool-assisted speedruns, and reverse engineering of Dreamcast games more convenient and easier than with the alternative solution, Cheat Engine. The program's name is derived from Dolphin Memory Engine as a nod to its roots.
+A RAM search program designed to search, track, and edit the emulated memory of the [Flycast emulator](https://github.com/dolphin-emu/dolphin) during runtime. The primary goal is to make research, tool-assisted speedruns, and reverse engineering of Dreamcast games more convenient and easier than with the alternative solution, Cheat Engine. The program's name is derived from Dolphin Memory Engine as a nod to its roots.
 
 The GUI is aimed for convenience, without disrupting the performance of the emulation. Qt 6 is used to help accomplish this.
 
