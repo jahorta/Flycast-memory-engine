@@ -87,8 +87,6 @@ inline u32 flycastAddrToOffset(u32 addr, bool considerAram)
   else if (addr >= MEM1_START && addr < GetMEM1End())
   {
     addr -= MEM1_START;
-    if (considerAram)
-      addr += ARAM_FAKESIZE;
   }
   // MEM2 address
   else if (addr >= MEM2_START && addr < GetMEM2End())
@@ -101,30 +99,9 @@ inline u32 flycastAddrToOffset(u32 addr, bool considerAram)
 
 inline u32 offsetToDolphinAddr(u32 offset, bool considerAram)
 {
-  if (considerAram)
+  if (offset < GetMEM1SizeReal())
   {
-    if (offset < ARAM_SIZE)
-    {
-      offset += ARAM_START;
-    }
-    else if (offset >= ARAM_FAKESIZE && offset < ARAM_FAKESIZE + GetMEM1SizeReal())
-    {
-      offset += MEM1_START;
-      offset -= ARAM_FAKESIZE;
-    }
-  }
-  else
-  {
-    if (offset < GetMEM1SizeReal())
-    {
-      offset += MEM1_START;
-    }
-    else if (offset >= MEM2_START - MEM1_START &&
-             offset < MEM2_START - MEM1_START + GetMEM2SizeReal())
-    {
-      offset += MEM2_START;
-      offset -= (MEM2_START - MEM1_START);
-    }
+    offset += MEM1_START;
   }
   return offset;
 }
@@ -133,9 +110,9 @@ inline u32 offsetToCacheIndex(u32 offset, bool considerAram)
 {
   if (considerAram)
   {
-    if (offset >= ARAM_FAKESIZE && offset < GetMEM1SizeReal() + ARAM_FAKESIZE)
+    if (offset >= ARAM_SIZE && offset < GetMEM1SizeReal() + ARAM_SIZE)
     {
-      offset -= (ARAM_FAKESIZE - ARAM_SIZE);
+      offset -= ARAM_SIZE;
     }
   }
   else
@@ -154,7 +131,7 @@ inline u32 cacheIndexToOffset(u32 cacheIndex, bool considerAram)
   {
     if (cacheIndex >= ARAM_SIZE && cacheIndex < GetMEM1SizeReal() + ARAM_SIZE)
     {
-      cacheIndex += (ARAM_FAKESIZE - ARAM_SIZE);
+      cacheIndex += ARAM_SIZE;
     }
   }
   else
