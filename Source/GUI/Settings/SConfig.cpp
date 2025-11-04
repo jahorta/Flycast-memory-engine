@@ -23,12 +23,12 @@ SConfig::SConfig()
   QFile file(portableFilePath);
   if (file.exists())
   {
-    m_settings = new QSettings(exeDir + "/settings.ini", QSettings::IniFormat);
+    m_settings = new QSettings(exeDir + "/flycast-settings.ini", QSettings::IniFormat);
   }
   else
   {
-    const QString organization{"dolphin-memory-engine"};
-    const QString application{"dolphin-memory-engine"};
+    const QString organization{"flycast-memory-engine"};
+    const QString application{"flycast-memory-engine"};
     m_settings =
         new QSettings(QSettings::IniFormat, QSettings::UserScope, organization, application);
   }
