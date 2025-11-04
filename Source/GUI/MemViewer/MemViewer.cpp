@@ -126,9 +126,8 @@ u32 MemViewer::getCurrentFirstAddress() const
   return m_currentFirstAddress;
 }
 
-void MemViewer::jumpToAddress(u32 address)
+void MemViewer::jumpToAddress(const u32 address)
 {
-
   if (FlycastComm::FlycastAccessor::isValidConsoleAddress(address))
   {
     m_currentFirstAddress = address;
