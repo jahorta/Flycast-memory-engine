@@ -126,8 +126,9 @@ u32 MemViewer::getCurrentFirstAddress() const
   return m_currentFirstAddress;
 }
 
-void MemViewer::jumpToAddress(const u32 address)
+void MemViewer::jumpToAddress(u32 address)
 {
+
   if (FlycastComm::FlycastAccessor::isValidConsoleAddress(address))
   {
     m_currentFirstAddress = address;
@@ -433,6 +434,16 @@ void MemViewer::copySelection(const Common::MemType type) const
         selectedMem, selectionLength, false);
     if (valid)
     {
+      if (selectionLength == 4 && selectedMem[3] == (char)0x8c)
+      {
+        char* bswapMem = new char[4];
+        bswapMem[0] = selectedMem[3];
+        bswapMem[1] = selectedMem[2];
+        bswapMem[2] = selectedMem[1];
+        bswapMem[3] = selectedMem[0];
+        selectedMem = bswapMem;
+      }
+
       std::string bytes = Common::formatMemoryToString(selectedMem, type, selectionLength,
                                                        Common::MemBase::base_none, true);
       QClipboard* clipboard = QGuiApplication::clipboard();
