@@ -25,6 +25,33 @@ std::string addSpacesToBytesArrays(const std::string_view bytesArray)
   }
   return result;
 }
+
+std::string swapEndian(const std::string bytesArray)
+{
+  std::string result;
+  int byteChars = 0;
+  for (int i = bytesArray.length() - 1; i >= 0; i--)
+  {
+    if (bytesArray[i] == ' ')
+    {
+      result += ' ';
+      continue;
+    }
+
+    if (byteChars < 2)
+    {
+      byteChars += 1;
+    }
+
+    if (byteChars == 2)
+    {
+      result += bytesArray[i];
+      result += bytesArray[i + 1];
+      byteChars = 0;
+    }
+  }
+  return result;
+}
 }  // namespace
 
 MemScanner::MemScanner() = default;
@@ -101,7 +128,11 @@ Common::MemOperationReturnCode MemScanner::firstScan(const MemScanner::ScanFilte
 
   std::string formattedSearchTerm1;
   if (m_memType == Common::MemType::type_byteArray)
+  {
     formattedSearchTerm1 = addSpacesToBytesArrays(searchTerm1);
+    if (m_swapEndian)
+      formattedSearchTerm1 = swapEndian(formattedSearchTerm1);
+  }
   else
     formattedSearchTerm1 = searchTerm1;
 
@@ -437,6 +468,11 @@ void MemScanner::setEnforceMemAlignment(const bool enforceAlignment)
 void MemScanner::setIsSigned(const bool isSigned)
 {
   m_memIsSigned = isSigned;
+}
+
+void MemScanner::setSwapEndian(const bool swapEndian)
+{
+  m_swapEndian = swapEndian;
 }
 
 void MemScanner::resetSearchRange()

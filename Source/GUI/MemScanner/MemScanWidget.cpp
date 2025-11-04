@@ -142,6 +142,10 @@ void MemScanWidget::initialiseWidgets()
   m_chkEnforceMemAlignment = new QCheckBox(tr("Enforce alignment"));
   m_chkEnforceMemAlignment->setChecked(true);
 
+  m_chkSwapEndian = new QCheckBox(tr("Swap endian (for pointer search)"));
+  m_chkSwapEndian->setChecked(false);
+  m_chkSwapEndian->hide();
+
   m_currentValuesUpdateTimer = new QTimer(this);
   connect(m_currentValuesUpdateTimer, &QTimer::timeout, this,
           &MemScanWidget::onCurrentValuesUpdateTimer);
@@ -198,6 +202,7 @@ void MemScanWidget::makeLayouts()
 
   QHBoxLayout* layout_extraParams = new QHBoxLayout();
   layout_extraParams->addWidget(m_chkEnforceMemAlignment);
+  layout_extraParams->addWidget(m_chkSwapEndian);
   layout_extraParams->addWidget(m_chkSignedScan);
 
   QVBoxLayout* scannerParams_layout = new QVBoxLayout();
@@ -334,6 +339,15 @@ void MemScanWidget::onScanMemTypeChanged()
     m_variableLengthType = false;
   }
 
+  if (newType == Common::MemType::type_byteArray)
+  {
+    m_chkSwapEndian->show();
+  }
+  else
+  {
+    m_chkSwapEndian->hide();
+  }
+
   updateTypeAdditionalOptions();
 }
 
@@ -419,6 +433,7 @@ void MemScanWidget::onFirstScan()
 
   m_memScanner->setType(static_cast<Common::MemType>(m_cmbScanType->currentIndex()));
   m_memScanner->setIsSigned(m_chkSignedScan->isChecked());
+  m_memScanner->setSwapEndian(m_chkSwapEndian->isChecked());
   m_memScanner->setEnforceMemAlignment(m_chkEnforceMemAlignment->isChecked());
   m_memScanner->setBase(static_cast<Common::MemBase>(m_btnGroupScanBase->checkedId()));
   Common::MemOperationReturnCode scannerReturn =

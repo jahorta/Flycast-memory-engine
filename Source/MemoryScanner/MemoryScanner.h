@@ -130,6 +130,7 @@ public:
   void setBase(Common::MemBase base);
   void setEnforceMemAlignment(bool enforceAlignment);
   void setIsSigned(bool isSigned);
+  void setSwapEndian(bool swapEndian);
   void resetSearchRange();
   bool setSearchRangeBegin(u32 beginRange);
   bool setSearchRangeEnd(u32 endRange);
@@ -165,6 +166,7 @@ private:
   size_t m_memSize{};
   bool m_enforceMemAlignment = true;
   bool m_memIsSigned = false;
+  bool m_swapEndian = false;
 
   size_t m_resultCount = 0;
   size_t m_undoCount = 0;

@@ -87,6 +87,7 @@ private:
   QLabel* m_lblResultCount{};
   QCheckBox* m_chkSignedScan{};
   QCheckBox* m_chkEnforceMemAlignment{};
+  QCheckBox* m_chkSwapEndian{};
   QButtonGroup* m_btnGroupScanBase{};
   QRadioButton* m_rdbBaseDecimal{};
   QRadioButton* m_rdbBaseHexadecimal{};
