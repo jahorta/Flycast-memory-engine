@@ -217,6 +217,9 @@ u32 MemWatchEntry::getAddressForPointerLevel(const int level) const
             addressBuffer.data(), sizeof(u32), true))
     {
       std::memcpy(&address, addressBuffer.data(), sizeof(u32));
+      // Pointers are always little endian represented in memory so we need to swap it
+      address = Common::bSwap32(address);
+
       if (FlycastComm::FlycastAccessor::isValidConsoleAddress(address))
         address += m_pointerOffsets.at(i);
       else
@@ -273,6 +276,10 @@ Common::MemOperationReturnCode MemWatchEntry::readMemoryFromRAM()
               realConsoleAddressBuffer.data(), sizeof(u32), true))
       {
         std::memcpy(&realConsoleAddress, realConsoleAddressBuffer.data(), sizeof(u32));
+
+        // Pointers are always little endian represented in memory so we need to swap it
+        realConsoleAddress = Common::bSwap32(realConsoleAddress);
+
         if (FlycastComm::FlycastAccessor::isValidConsoleAddress(realConsoleAddress))
         {
           realConsoleAddress += offset;
